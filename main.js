@@ -9,6 +9,7 @@
 const CANVAS = document.getElementById("mycanvas");
 const CONTEXT = CANVAS.getContext("2d");
 const REFRESH_RATE = 20;    // milliseconds between refreshes
+const BACKGROUND_COLOUR = "#3BB9FF";
 
 const UPDATE_SUCCESS = "Successfully updated.";
 const UPDATE_FAILURE = "The object can no longer be updated.";
@@ -78,9 +79,11 @@ const game = {
         }
     },
 
-    // Clear the canvas.
+    // Clear the canvas and fill it with the background colour.
     clear: function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.fillStyle = BACKGROUND_COLOUR;
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 };
 
