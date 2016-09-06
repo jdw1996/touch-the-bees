@@ -9,7 +9,7 @@
 const CANVAS = document.getElementById("mycanvas");
 const CONTEXT = CANVAS.getContext("2d");
 const REFRESH_RATE = 20;    // milliseconds between refreshes
-const BACKGROUND_COLOUR = "#3BB9FF";
+const BACKGROUND_COLOUR = "#729fcf";
 
 const UPDATE_SUCCESS = "Successfully updated.";
 const UPDATE_FAILURE = "The object can no longer be updated.";
@@ -18,8 +18,8 @@ const BEE_FREQUENCY = 20;   // a higher number creates fewer bees
 const BEE_RADIUS = 30;      // radius of a bee, in pixels
 const BEE_SPEED = 5;        // horizontal speed of a bee
 
-const BEE_COLOUR = "yellow";
-const BEE_OUTLINE_COLOUR = "black";
+const BEE_COLOUR = "#fce94f";
+const BEE_OUTLINE_COLOUR = "#2e3436";
 const BEE_OUTLINE_THICKNESS = 10;
 
 var counter = 0;
