@@ -1,6 +1,5 @@
 /*
  * Joseph Winters
- * Main JS file
  * Spring 2016
  */
 
