@@ -96,6 +96,10 @@ function Bee() {
     this.y = randrange(this.radius, this.canvas.height - this.radius);
     this.speed = BEE_SPEED;
 
+    this.colour = BEE_COLOUR;
+    this.outlineColour = BEE_OUTLINE_COLOUR;
+    this.outlineThickness = BEE_OUTLINE_THICKNESS;
+
     // Update the bee's position.
     this.update = function() {
         if (this.x + this.speed > this.canvas.width + this.radius) {
@@ -115,9 +119,9 @@ function Bee() {
 
     // Display the bee on the canvas.
     this.draw = function() {
-        this.context.fillStyle = BEE_COLOUR;
-        this.context.strokeStyle = BEE_OUTLINE_COLOUR;
-        this.context.lineWidth = BEE_OUTLINE_THICKNESS;
+        this.context.fillStyle = this.colour;
+        this.context.strokeStyle = this.outlineColour;
+        this.context.lineWidth = this.outlineThickness;
         this.context.beginPath();
         this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         this.context.fill();
