@@ -40,7 +40,7 @@ function Point(x, y) {
 
 // Return the distance between two Point objects.
 function distance(p1, p2) {
-    return Math.sqrt(Math.pow(p2.x - p1.x, 2), Math.pow(p2.y - p1.y, 2));
+    return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 }
 
 
@@ -62,6 +62,19 @@ const game = {
             })(this),
             REFRESH_RATE
         );
+    },
+
+    // Handle mousedown events.
+    handleMouseDown: function(e) {
+        let canvasRect = this.canvas.getBoundingClientRect();
+        let mousePoint = new Point(e.clientX - canvasRect.left,
+                                   e.clientY - canvasRect.top);
+        for (let i = 0; i < this.bees.length; i++) {
+            let dist = distance(mousePoint, this.bees[i].centre);
+            if (dist < this.bees[i].radius) {
+                this.bees[i].drop();
+            }
+        }
     },
 
     // Update the game.
@@ -140,6 +153,11 @@ function Bee() {
         this.context.fill();
         this.context.stroke();
     }
+
+    // Make the bee drop (for when it is clicked).
+    this.drop = function() {
+        console.log("Dropping a bee!");
+    }
 }
 
 
@@ -147,6 +165,10 @@ function Bee() {
 
 function startGame() {
     game.start();
+    game.canvas.addEventListener("mousedown",
+                                 function(e) {
+                                     game.handleMouseDown(e);
+                                 });
 }
 
 window.onload = startGame;
