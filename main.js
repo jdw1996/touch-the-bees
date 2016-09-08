@@ -29,7 +29,7 @@ var counter = 0;
 
 // Return a random number between min (inclusive) and max (exclusive).
 function randrange(min, max) {
-    return Math.random() * (max - min) + min;
+    return Math.floor(Math.random() * (max - min) + min);
 }
 
 
