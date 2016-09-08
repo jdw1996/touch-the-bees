@@ -17,6 +17,7 @@ const UPDATE_FAILURE = "The object can no longer be updated.";
 const BEE_FREQUENCY = 20;   // a higher number creates fewer bees
 const BEE_RADIUS = 30;      // radius of a bee, in pixels
 const BEE_SPEED = 5;        // horizontal speed of a bee
+const BEE_DROP_SPEED = 15;  // vertical drop speed of a dead bee
 
 const BEE_COLOUR = "#fce94f";
 const BEE_OUTLINE_COLOUR = "#2e3436";
@@ -120,6 +121,7 @@ function Bee() {
                             randrange(this.radius,
                                       this.canvas.height - this.radius));
     this.speed = BEE_SPEED;
+    this.dead = false;
 
     this.colour = BEE_COLOUR;
     this.outlineColour = BEE_OUTLINE_COLOUR;
@@ -132,12 +134,16 @@ function Bee() {
         }
         this.centre.x += this.speed;
 
-        let dy = randrange(-10, 10);
-        if (this.centre.y + dy < this.radius
-            || this.centre.y + dy > this.canvas.height - this.radius) {
-            dy = -dy;
+        if (this.dead) {
+            this.centre.y += BEE_DROP_SPEED;
+        } else {
+            let dy = randrange(-10, 10);
+            if (this.centre.y + dy < this.radius
+                || this.centre.y + dy > this.canvas.height - this.radius) {
+                dy = -dy;
+            }
+            this.centre.y += dy;
         }
-        this.centre.y += dy;
 
         return UPDATE_SUCCESS;
     }
@@ -156,7 +162,7 @@ function Bee() {
 
     // Make the bee drop (for when it is clicked).
     this.drop = function() {
-        console.log("Dropping a bee!");
+        this.dead = true;
     }
 }
 
