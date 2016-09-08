@@ -32,6 +32,17 @@ function randrange(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+// Constructor for a Point object (x, y).
+function Point(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+// Return the distance between two Point objects.
+function distance(p1, p2) {
+    return Math.sqrt(Math.pow(p2.x - p1.x, 2), Math.pow(p2.y - p1.y, 2));
+}
+
 
 /* OBJECTS AND CONSTRUCTORS */
 
@@ -92,8 +103,9 @@ function Bee() {
     this.context = CONTEXT;
 
     this.radius = BEE_RADIUS;
-    this.x = - this.radius;
-    this.y = randrange(this.radius, this.canvas.height - this.radius);
+    this.centre = new Point(- this.radius,
+                            randrange(this.radius,
+                                      this.canvas.height - this.radius));
     this.speed = BEE_SPEED;
 
     this.colour = BEE_COLOUR;
@@ -102,17 +114,17 @@ function Bee() {
 
     // Update the bee's position.
     this.update = function() {
-        if (this.x + this.speed > this.canvas.width + this.radius) {
+        if (this.centre.x + this.speed > this.canvas.width + this.radius) {
             return UPDATE_FAILURE;
         }
-        this.x += this.speed;
+        this.centre.x += this.speed;
 
         let dy = randrange(-10, 10);
-        if (this.y + dy < this.radius
-            || this.y + dy > this.canvas.height - this.radius) {
+        if (this.centre.y + dy < this.radius
+            || this.centre.y + dy > this.canvas.height - this.radius) {
             dy = -dy;
         }
-        this.y += dy;
+        this.centre.y += dy;
 
         return UPDATE_SUCCESS;
     }
@@ -123,7 +135,8 @@ function Bee() {
         this.context.strokeStyle = this.outlineColour;
         this.context.lineWidth = this.outlineThickness;
         this.context.beginPath();
-        this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        this.context.arc(this.centre.x, this.centre.y, this.radius,
+                         0, 2 * Math.PI);
         this.context.fill();
         this.context.stroke();
     }
