@@ -47,7 +47,7 @@ function distance(p1, p2) {
 
 /* OBJECTS AND CONSTRUCTORS */
 
-const game = {
+const GAME = {
     canvas: CANVAS,
     context: CONTEXT,
 
@@ -170,11 +170,11 @@ function Bee() {
 /* MAIN EXECUTION */
 
 function startGame() {
-    game.start();
-    game.canvas.addEventListener("mousedown",
-                                 function(e) {
-                                     game.handleMouseDown(e);
-                                 });
+    GAME.start();
+    CANVAS.addEventListener("mousedown",
+                            function(e) {
+                                GAME.handleMouseDown(e);
+                            });
 }
 
 window.onload = startGame;
