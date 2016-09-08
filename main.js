@@ -73,7 +73,7 @@ const game = {
         for (let i = 0; i < this.bees.length; i++) {
             let dist = distance(mousePoint, this.bees[i].centre);
             if (dist < this.bees[i].radius) {
-                this.bees[i].drop();
+                this.bees[i].kill();
             }
         }
     },
@@ -160,8 +160,8 @@ function Bee() {
         this.context.stroke();
     }
 
-    // Make the bee drop (for when it is clicked).
-    this.drop = function() {
+    // Kill the bee.
+    this.kill = function() {
         this.dead = true;
     }
 }
