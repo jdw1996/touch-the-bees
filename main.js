@@ -14,10 +14,11 @@ const BACKGROUND_COLOUR = "#729fcf";
 const UPDATE_SUCCESS = "Successfully updated.";
 const UPDATE_FAILURE = "The object can no longer be updated.";
 
-const BEE_FREQUENCY = 20;   // a higher number creates fewer bees
-const BEE_RADIUS = 30;      // radius of a bee, in pixels
-const BEE_SPEED = 5;        // horizontal speed of a bee
-const BEE_DROP_SPEED = 15;  // vertical drop speed of a dead bee
+const BEE_FREQUENCY = 20;           // a higher number creates fewer bees
+const BEE_RADIUS = 30;              // radius of a bee, in pixels
+const BEE_SPEED = 5;                // horizontal speed of a bee
+const BEE_DROP_SPEED = 15;          // vertical drop speed of a dead bee
+const BEE_TOUCH_SENSITIVITY = 1.5;  // multiplier of radius
 
 const BEE_COLOUR = "#fce94f";
 const BEE_OUTLINE_COLOUR = "#2e3436";
@@ -72,7 +73,7 @@ const GAME = {
                                    e.clientY - canvasRect.top);
         for (let i = 0; i < this.bees.length; i++) {
             let dist = distance(mousePoint, this.bees[i].centre);
-            if (dist < this.bees[i].radius) {
+            if (dist < this.bees[i].radius * this.bees[i].sensitivity) {
                 this.bees[i].kill();
             }
         }
@@ -117,6 +118,7 @@ function Bee() {
     this.context = CONTEXT;
 
     this.radius = BEE_RADIUS;
+    this.sensitivity = BEE_TOUCH_SENSITIVITY;
     this.centre = new Point(- this.radius,
                             randrange(this.radius,
                                       this.canvas.height - this.radius));
