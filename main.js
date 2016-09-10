@@ -24,8 +24,6 @@ const BEE_COLOUR = "#fce94f";
 const BEE_OUTLINE_COLOUR = "#2e3436";
 const BEE_OUTLINE_THICKNESS = 10;
 
-var counter = 0;
-
 
 /* HELPER FUNCTIONS */
 
@@ -53,6 +51,7 @@ const GAME = {
     context: CONTEXT,
 
     bees: [],
+    counter: 0,
 
     // Start playing the game.
     start: function() {
@@ -60,6 +59,7 @@ const GAME = {
             (function(self) {
                 return function() {
                     self.update();
+                    self.draw();
                 };
             })(this),
             REFRESH_RATE
@@ -81,27 +81,27 @@ const GAME = {
 
     // Update the game.
     update: function() {
-        if (counter % BEE_FREQUENCY === 0) {
-            this.bees.push(new Bee());
-            counter = 0;    // reset the counter
-        }
-        this.draw();
-        counter++;
-    },
-
-    // Display the current frame of the game.
-    draw: function() {
-        this.clear();
         let i = this.bees.length - 1;
         while (i >= 0) {
             let ret = this.bees[i].update();
             if (ret !== UPDATE_SUCCESS) {
                 // the bee has left the screen and should be deleted
                 this.bees.splice(i, 1);
-            } else {
-                this.bees[i].draw();
             }
             i--;
+        }
+        if (this.counter % BEE_FREQUENCY === 0) {
+            this.bees.push(new Bee());
+            this.counter = 0;   // reset the counter
+        }
+        this.counter++;
+    },
+
+    // Display the current frame of the game.
+    draw: function() {
+        this.clear();
+        for (let i = 0; i < this.bees.length; i++) {
+            this.bees[i].draw();
         }
     },
 
