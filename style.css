@@ -9,12 +9,43 @@ body {
     color: #eeeeec;
 }
 
+header {
+    text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header p {
+    font-family: "Source Code Pro";
+    font-weight: normal;
+    margin: 0;
+}
+
+h1 {
+    font-size: 56pt;
+}
+
+table {
+    font-family: "Source Code Pro";
+    font-size: 1.5em;
+    text-align: right;
+}
+
 canvas {
     padding: 0;
     margin: auto;
     display: block;
 }
 
-.centre {
+p {
     text-align: center;
+}
+
+#scores {
+    margin: auto;
+    width: 25%;
 }
