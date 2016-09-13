@@ -18,11 +18,12 @@ const BACKGROUND_COLOUR = "#729fcf";
 const UPDATE_SUCCESS = "Successfully updated.";
 const UPDATE_FAILURE = "The object can no longer be updated.";
 
-const BEE_FREQUENCY = 50;           // a higher number creates fewer bees
+const BEE_FREQUENCY = 40;           // a higher number creates fewer bees
 const BEE_RADIUS = 30;              // radius of a bee, in pixels
 var beeSpeed = 2;                   // default horizontal speed of a bee
 const BEE_DROP_SPEED = 15;          // vertical drop speed of a dead bee
 const BEE_TOUCH_SENSITIVITY = 1.5;  // multiplier of radius
+const BEES_PER_LEVEL = 10;          // number of kills before speed increases
 
 const BEE_COLOUR = "#fce94f";
 const BEE_OUTLINE_COLOUR = "#2e3436";
@@ -53,6 +54,7 @@ function distance(p1, p2) {
 const GAME = {
     bees: [],
     currentScore: 0,
+    level: 1,
     highScore: localStorage.getItem(HIGH_SCORE_STRING),
     counter: 0,
 
@@ -104,6 +106,10 @@ const GAME = {
             this.highScore = this.currentScore;
             HIGH_SCORE.textContent = this.highScore;
             localStorage.setItem(HIGH_SCORE_STRING, this.highScore);
+        }
+        if (this.currentScore === (this.level + 1) * BEES_PER_LEVEL) {
+            this.level++;
+            beeSpeed++;
         }
         this.counter++;
     },
