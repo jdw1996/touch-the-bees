@@ -18,9 +18,9 @@ const BACKGROUND_COLOUR = "#729fcf";
 const UPDATE_SUCCESS = "Successfully updated.";
 const UPDATE_FAILURE = "The object can no longer be updated.";
 
-const BEE_FREQUENCY = 20;           // a higher number creates fewer bees
+const BEE_FREQUENCY = 50;           // a higher number creates fewer bees
 const BEE_RADIUS = 30;              // radius of a bee, in pixels
-const BEE_SPEED = 5;                // horizontal speed of a bee
+var beeSpeed = 2;                   // default horizontal speed of a bee
 const BEE_DROP_SPEED = 15;          // vertical drop speed of a dead bee
 const BEE_TOUCH_SENSITIVITY = 1.5;  // multiplier of radius
 
@@ -51,9 +51,6 @@ function distance(p1, p2) {
 /* OBJECTS AND CONSTRUCTORS */
 
 const GAME = {
-    canvas: CANVAS,
-    context: CONTEXT,
-
     bees: [],
     currentScore: 0,
     highScore: localStorage.getItem(HIGH_SCORE_STRING),
@@ -75,7 +72,7 @@ const GAME = {
 
     // Handle mousedown events.
     handleMouseDown: function(e) {
-        let canvasRect = this.canvas.getBoundingClientRect();
+        let canvasRect = CANVAS.getBoundingClientRect();
         let mousePoint = new Point(e.clientX - canvasRect.left,
                                    e.clientY - canvasRect.top);
         for (let i = 0; i < this.bees.length; i++) {
@@ -121,22 +118,18 @@ const GAME = {
 
     // Clear the canvas and fill it with the background colour.
     clear: function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.context.fillStyle = BACKGROUND_COLOUR;
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        CONTEXT.clearRect(0, 0, CANVAS.width, CANVAS.height);
+        CONTEXT.fillStyle = BACKGROUND_COLOUR;
+        CONTEXT.fillRect(0, 0, CANVAS.width, CANVAS.height);
     }
 };
 
 function Bee() {
-    this.canvas = CANVAS;
-    this.context = CONTEXT;
-
     this.radius = BEE_RADIUS;
     this.sensitivity = BEE_TOUCH_SENSITIVITY;
     this.centre = new Point(- this.radius,
                             randrange(this.radius,
-                                      this.canvas.height - this.radius));
-    this.speed = BEE_SPEED;
+                                      CANVAS.height - this.radius));
     this.dead = false;
 
     this.colour = BEE_COLOUR;
@@ -145,17 +138,17 @@ function Bee() {
 
     // Update the bee's position.
     this.update = function() {
-        if (this.centre.x + this.speed > this.canvas.width + this.radius) {
+        if (this.centre.x + beeSpeed > CANVAS.width + this.radius) {
             return UPDATE_FAILURE;
         }
-        this.centre.x += this.speed;
+        this.centre.x += beeSpeed;
 
         if (this.dead) {
             this.centre.y += BEE_DROP_SPEED;
         } else {
             let dy = randrange(-10, 10);
             if (this.centre.y + dy < this.radius
-                || this.centre.y + dy > this.canvas.height - this.radius) {
+                || this.centre.y + dy > CANVAS.height - this.radius) {
                 dy = -dy;
             }
             this.centre.y += dy;
@@ -166,14 +159,14 @@ function Bee() {
 
     // Display the bee on the canvas.
     this.draw = function() {
-        this.context.fillStyle = this.colour;
-        this.context.strokeStyle = this.outlineColour;
-        this.context.lineWidth = this.outlineThickness;
-        this.context.beginPath();
-        this.context.arc(this.centre.x, this.centre.y, this.radius,
+        CONTEXT.fillStyle = this.colour;
+        CONTEXT.strokeStyle = this.outlineColour;
+        CONTEXT.lineWidth = this.outlineThickness;
+        CONTEXT.beginPath();
+        CONTEXT.arc(this.centre.x, this.centre.y, this.radius,
                          0, 2 * Math.PI);
-        this.context.fill();
-        this.context.stroke();
+        CONTEXT.fill();
+        CONTEXT.stroke();
     }
 
     // Kill the bee.
