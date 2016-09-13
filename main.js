@@ -6,6 +6,8 @@
 
 /* GLOBAL VARIABLES */
 
+const HIGH_SCORE = document.getElementById("highscore");
+const CURRENT_SCORE = document.getElementById("currentscore");
 const CANVAS = document.getElementById("mycanvas");
 const CONTEXT = CANVAS.getContext("2d");
 const REFRESH_RATE = 20;    // milliseconds between refreshes
@@ -51,6 +53,8 @@ const GAME = {
     context: CONTEXT,
 
     bees: [],
+    currentScore: 0,
+    highScore: 0,
     counter: 0,
 
     // Start playing the game.
@@ -75,6 +79,7 @@ const GAME = {
             let dist = distance(mousePoint, this.bees[i].centre);
             if (dist < this.bees[i].radius * this.bees[i].sensitivity) {
                 this.bees[i].kill();
+                this.currentScore++;
             }
         }
     },
@@ -93,6 +98,10 @@ const GAME = {
         if (this.counter % BEE_FREQUENCY === 0) {
             this.bees.push(new Bee());
             this.counter = 0;   // reset the counter
+        }
+        CURRENT_SCORE.textContent = this.currentScore;
+        if (this.currentScore > this.highScore) {
+            HIGH_SCORE.textContent = this.currentScore;
         }
         this.counter++;
     },
