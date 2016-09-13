@@ -99,6 +99,7 @@ const GAME = {
             if (ret === BEE_ESCAPED) {
                 // a bee has escaped the screen without being killed
                 console.log("You lose!");
+                this.stop();
             }
             i--;
         }
@@ -125,6 +126,11 @@ const GAME = {
         for (let i = 0; i < this.bees.length; i++) {
             this.bees[i].draw();
         }
+    },
+
+    // Freeze the canvas when the game is lost.
+    stop: function() {
+        clearInterval(this.interval);
     },
 
     // Clear the canvas and fill it with the background colour.
