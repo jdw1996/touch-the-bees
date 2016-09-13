@@ -6,8 +6,10 @@
 
 /* GLOBAL VARIABLES */
 
-const HIGH_SCORE = document.getElementById("highscore");
 const CURRENT_SCORE = document.getElementById("currentscore");
+const HIGH_SCORE = document.getElementById("highscore");
+const HIGH_SCORE_STRING = "highscore";
+
 const CANVAS = document.getElementById("mycanvas");
 const CONTEXT = CANVAS.getContext("2d");
 const REFRESH_RATE = 20;    // milliseconds between refreshes
@@ -54,11 +56,12 @@ const GAME = {
 
     bees: [],
     currentScore: 0,
-    highScore: 0,
+    highScore: localStorage.getItem(HIGH_SCORE_STRING),
     counter: 0,
 
     // Start playing the game.
     start: function() {
+        HIGH_SCORE.textContent = this.highScore;
         this.interval = setInterval(
             (function(self) {
                 return function() {
@@ -100,8 +103,10 @@ const GAME = {
             this.counter = 0;   // reset the counter
         }
         CURRENT_SCORE.textContent = this.currentScore;
-        if (this.currentScore > this.highScore) {
-            HIGH_SCORE.textContent = this.currentScore;
+        if (this.highScore === null || this.currentScore > this.highScore) {
+            this.highScore = this.currentScore;
+            HIGH_SCORE.textContent = this.highScore;
+            localStorage.setItem(HIGH_SCORE_STRING, this.highScore);
         }
         this.counter++;
     },
