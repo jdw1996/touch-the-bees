@@ -15,8 +15,9 @@ const CONTEXT = CANVAS.getContext("2d");
 const REFRESH_RATE = 20;    // milliseconds between refreshes
 const BACKGROUND_COLOUR = "#729fcf";
 
-const UPDATE_SUCCESS = "Successfully updated.";
-const UPDATE_FAILURE = "The object can no longer be updated.";
+const BEE_UPDATED = "Successfully updated the bee.";
+const BEE_DEAD_AND_FALLEN = "The bee died and has now left the screen.";
+const BEE_ESCAPED = "The bee escaped beyond the end of the screen.";
 
 const BEE_FREQUENCY = 40;           // a higher number creates fewer bees
 const BEE_RADIUS = 30;              // radius of a bee, in pixels
@@ -91,9 +92,13 @@ const GAME = {
         let i = this.bees.length - 1;
         while (i >= 0) {
             let ret = this.bees[i].update();
-            if (ret !== UPDATE_SUCCESS) {
+            if (ret !== BEE_UPDATED) {
                 // the bee has left the screen and should be deleted
                 this.bees.splice(i, 1);
+            }
+            if (ret === BEE_ESCAPED) {
+                // a bee has escaped the screen without being killed
+                console.log("You lose!");
             }
             i--;
         }
@@ -144,12 +149,16 @@ function Bee() {
 
     // Update the bee's position.
     this.update = function() {
-        if (this.centre.x + beeSpeed > CANVAS.width + this.radius) {
-            return UPDATE_FAILURE;
+        if (this.centre.x + beeSpeed > CANVAS.width + this.radius
+            && ! this.dead) {
+            return BEE_ESCAPED;
         }
         this.centre.x += beeSpeed;
 
         if (this.dead) {
+            if (this.centre.y + BEE_DROP_SPEED > CANVAS.height + this.radius) {
+                return BEE_DEAD_AND_FALLEN;
+            }
             this.centre.y += BEE_DROP_SPEED;
         } else {
             let dy = randrange(-10, 10);
@@ -160,7 +169,7 @@ function Bee() {
             this.centre.y += dy;
         }
 
-        return UPDATE_SUCCESS;
+        return BEE_UPDATED;
     }
 
     // Display the bee on the canvas.
