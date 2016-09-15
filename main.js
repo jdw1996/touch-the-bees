@@ -12,7 +12,7 @@ const HIGH_SCORE_STRING = "highscore";
 
 const CANVAS = document.getElementById("mycanvas");
 const CONTEXT = CANVAS.getContext("2d");
-const REFRESH_RATE = 20;    // milliseconds between refreshes
+const REFRESH_RATE = 20;            // milliseconds between refreshes
 const BACKGROUND_COLOUR = "#729fcf";
 
 const BEE_UPDATED = "Successfully updated the bee.";
@@ -57,16 +57,19 @@ const GAME = {
     currentScore: 0,
     level: 1,
     highScore: localStorage.getItem(HIGH_SCORE_STRING),
+    gameOver: false,
     counter: 0,
 
-    // Start playing the game.
-    start: function() {
+    // Run the game.
+    run: function() {
         HIGH_SCORE.textContent = this.highScore;
-        this.interval = setInterval(
+        this.playInterval = setInterval(
             (function(self) {
                 return function() {
-                    self.update();
-                    self.draw();
+                    if (! self.gameOver) {
+                        self.update();
+                        self.draw();
+                    }
                 };
             })(this),
             REFRESH_RATE
@@ -98,8 +101,7 @@ const GAME = {
             }
             if (ret === BEE_ESCAPED) {
                 // a bee has escaped the screen without being killed
-                console.log("You lose!");
-                this.stop();
+                this.gameOver = true;
             }
             i--;
         }
@@ -126,11 +128,6 @@ const GAME = {
         for (let i = 0; i < this.bees.length; i++) {
             this.bees[i].draw();
         }
-    },
-
-    // Freeze the canvas when the game is lost.
-    stop: function() {
-        clearInterval(this.interval);
     },
 
     // Clear the canvas and fill it with the background colour.
@@ -199,12 +196,12 @@ function Bee() {
 
 /* MAIN EXECUTION */
 
-function startGame() {
-    GAME.start();
+function runGame() {
+    GAME.run();
     CANVAS.addEventListener("mousedown",
                             function(e) {
                                 GAME.handleMouseDown(e);
                             });
 }
 
-window.onload = startGame;
+window.onload = runGame;
