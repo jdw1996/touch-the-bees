@@ -21,10 +21,19 @@ const BEE_ESCAPED = "The bee escaped beyond the end of the screen.";
 
 const BEE_FREQUENCY = 40;           // a higher number creates fewer bees
 const BEE_RADIUS = 30;              // radius of a bee, in pixels
-var beeSpeed = 2;                   // default horizontal speed of a bee
+const BEE_BASE_SPEED = 2;           // default horizontal speed of a bee
 const BEE_DROP_SPEED = 15;          // vertical drop speed of a dead bee
 const BEE_TOUCH_SENSITIVITY = 1.5;  // multiplier of radius
 const BEES_PER_LEVEL = 10;          // number of kills before speed increases
+
+const TEXT_FONT = "40px Source Code Pro";
+const TEXT_COLOUR = "#eeeeec";
+const START_TEXT = "Click to start touching bees!";
+const START_TEXT_NW_CORNER = new Point(140, 210)
+const END_TEXT1 = "Final score: ";
+const END_TEXT1_NW_CORNER = new Point(300,180);
+const END_TEXT2 = "Click to play again!";
+const END_TEXT2_NW_CORNER = new Point(250,END_TEXT1_NW_CORNER.y + 60);
 
 const BEE_COLOUR = "#fce94f";
 const BEE_OUTLINE_COLOUR = "#2e3436";
@@ -54,21 +63,25 @@ function distance(p1, p2) {
 
 const GAME = {
     bees: [],
+    beeSpeed: BEE_BASE_SPEED,
     currentScore: 0,
     level: 1,
     highScore: localStorage.getItem(HIGH_SCORE_STRING),
-    gameOver: false,
+    gameOver: true,
+    startedPlaying: false,
     counter: 0,
 
     // Run the game.
     run: function() {
-        HIGH_SCORE.textContent = this.highScore;
+        this.pregame();
         this.playInterval = setInterval(
             (function(self) {
                 return function() {
                     if (! self.gameOver) {
                         self.update();
                         self.draw();
+                    } else if (self.startedPlaying) {
+                        self.endgame();
                     }
                 };
             })(this),
@@ -76,25 +89,11 @@ const GAME = {
         );
     },
 
-    // Handle mousedown events.
-    handleMouseDown: function(e) {
-        let canvasRect = CANVAS.getBoundingClientRect();
-        let mousePoint = new Point(e.clientX - canvasRect.left,
-                                   e.clientY - canvasRect.top);
-        for (let i = 0; i < this.bees.length; i++) {
-            let dist = distance(mousePoint, this.bees[i].centre);
-            if (dist < this.bees[i].radius * this.bees[i].sensitivity) {
-                this.bees[i].kill();
-                this.currentScore++;
-            }
-        }
-    },
-
     // Update the game.
     update: function() {
         let i = this.bees.length - 1;
         while (i >= 0) {
-            let ret = this.bees[i].update();
+            let ret = this.bees[i].update(this.beeSpeed);
             if (ret !== BEE_UPDATED) {
                 // the bee has left the screen and should be deleted
                 this.bees.splice(i, 1);
@@ -117,7 +116,7 @@ const GAME = {
         }
         if (this.currentScore === (this.level + 1) * BEES_PER_LEVEL) {
             this.level++;
-            beeSpeed++;
+            this.beeSpeed++;
         }
         this.counter++;
     },
@@ -128,6 +127,54 @@ const GAME = {
         for (let i = 0; i < this.bees.length; i++) {
             this.bees[i].draw();
         }
+    },
+
+    // Handle mousedown events.
+    handleMouseDown: function(e) {
+        if (! this.gameOver) {
+            let canvasRect = CANVAS.getBoundingClientRect();
+            let mousePoint = new Point(e.clientX - canvasRect.left,
+                                       e.clientY - canvasRect.top);
+            for (let i = 0; i < this.bees.length; i++) {
+                let dist = distance(mousePoint, this.bees[i].centre);
+                if (dist < this.bees[i].radius * this.bees[i].sensitivity) {
+                    this.bees[i].kill();
+                    this.currentScore++;
+                }
+            }
+        } else {
+            this.bees = [];
+            this.beeSpeed = BEE_BASE_SPEED;
+            this.currentScore = 0;
+            this.level = 1;
+            this.counter = 0;
+            this.gameOver = false;
+            this.startedPlaying = true;
+        }
+    },
+
+    // Retrieve and display the high score and display the start screen.
+    pregame: function() {
+        HIGH_SCORE.textContent = this.highScore;
+        this.draw();
+        CONTEXT.fillStyle = TEXT_COLOUR;
+        CONTEXT.font = TEXT_FONT;
+        CONTEXT.fillText(START_TEXT,
+                         START_TEXT_NW_CORNER.x,
+                         START_TEXT_NW_CORNER.y);
+    },
+
+    // Display the end of game screen.
+    endgame: function() {
+        this.clear();
+        CONTEXT.fillStyle = TEXT_COLOUR;
+        CONTEXT.font = TEXT_FONT;
+        CONTEXT.fillText(END_TEXT1 + this.currentScore,
+                         END_TEXT1_NW_CORNER.x,
+                         END_TEXT1_NW_CORNER.y);
+        CONTEXT.fillText(END_TEXT2,
+                         END_TEXT2_NW_CORNER.x,
+                         END_TEXT2_NW_CORNER.y);
     },
 
     // Clear the canvas and fill it with the background colour.
@@ -151,7 +198,7 @@ function Bee() {
     this.outlineThickness = BEE_OUTLINE_THICKNESS;
 
     // Update the bee's position.
-    this.update = function() {
+    this.update = function(beeSpeed) {
         if (this.centre.x + beeSpeed > CANVAS.width + this.radius
             && ! this.dead) {
             return BEE_ESCAPED;
