@@ -143,13 +143,7 @@ const GAME = {
                 }
             }
         } else {
-            this.bees = [];
-            this.beeSpeed = BEE_BASE_SPEED;
-            this.currentScore = 0;
-            this.level = 1;
-            this.counter = 0;
-            this.gameOver = false;
-            this.startedPlaying = true;
+            this.reset();
         }
     },
 
@@ -175,6 +169,17 @@ const GAME = {
         CONTEXT.fillText(END_TEXT2,
                          END_TEXT2_NW_CORNER.x,
                          END_TEXT2_NW_CORNER.y);
+    },
+
+    // Reset the variables that must be reset to start a new game.
+    reset: function() {
+        this.bees = [];
+        this.beeSpeed = BEE_BASE_SPEED;
+        this.currentScore = 0;
+        this.level = 1;
+        this.gameOver = false;
+        this.startedPlaying = true;
+        this.counter = 0;
     },
 
     // Clear the canvas and fill it with the background colour.
