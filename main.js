@@ -138,7 +138,7 @@ const GAME = {
                                        e.clientY - canvasRect.top);
             for (let i = 0; i < this.bees.length; i++) {
                 let dist = distance(mousePoint, this.bees[i].centre);
-                if (dist < this.bees[i].radius * this.bees[i].sensitivity) {
+                if (dist < BEE_RADIUS * BEE_TOUCH_SENSITIVITY) {
                     this.bees[i].kill();
                     this.currentScore++;
                 }
@@ -192,34 +192,28 @@ const GAME = {
 };
 
 function Bee() {
-    this.radius = BEE_RADIUS;
-    this.sensitivity = BEE_TOUCH_SENSITIVITY;
-    this.centre = new Point(- this.radius,
-                            randrange(this.radius,
-                                      CANVAS.height - this.radius));
+    this.centre = new Point(- BEE_RADIUS,
+                            randrange(BEE_RADIUS,
+                                      CANVAS.height - BEE_RADIUS));
     this.dead = false;
-
-    this.colour = BEE_COLOUR;
-    this.outlineColour = BEE_OUTLINE_COLOUR;
-    this.outlineThickness = BEE_OUTLINE_THICKNESS;
 
     // Update the bee's position.
     this.update = function(beeSpeed) {
-        if (this.centre.x + beeSpeed > CANVAS.width + this.radius
+        if (this.centre.x + beeSpeed > CANVAS.width + BEE_RADIUS
             && ! this.dead) {
             return BEE_ESCAPED;
         }
         this.centre.x += beeSpeed;
 
         if (this.dead) {
-            if (this.centre.y + BEE_DROP_SPEED > CANVAS.height + this.radius) {
+            if (this.centre.y + BEE_DROP_SPEED > CANVAS.height + BEE_RADIUS) {
                 return BEE_DEAD_AND_FALLEN;
             }
             this.centre.y += BEE_DROP_SPEED;
         } else {
             let dy = randrange(-10, 10);
-            if (this.centre.y + dy < this.radius
-                || this.centre.y + dy > CANVAS.height - this.radius) {
+            if (this.centre.y + dy < BEE_RADIUS
+                || this.centre.y + dy > CANVAS.height - BEE_RADIUS) {
                 dy = -dy;
             }
             this.centre.y += dy;
@@ -230,16 +224,16 @@ function Bee() {
 
     // Display the bee on the canvas.
     this.draw = function() {
-        CONTEXT.fillStyle = this.colour;
-        CONTEXT.strokeStyle = this.outlineColour;
-        CONTEXT.lineWidth = this.outlineThickness;
+        CONTEXT.fillStyle = BEE_COLOUR;
+        CONTEXT.strokeStyle = BEE_OUTLINE_COLOUR;
+        CONTEXT.lineWidth = BEE_OUTLINE_THICKNESS;
         CONTEXT.beginPath();
-        CONTEXT.arc(this.centre.x, this.centre.y, this.radius,
+        CONTEXT.arc(this.centre.x, this.centre.y, BEE_RADIUS,
                          0, 2 * Math.PI);
         CONTEXT.fill();
         CONTEXT.stroke();
 
-        CONTEXT.lineWidth = this.outlineThickness
+        CONTEXT.lineWidth = BEE_OUTLINE_THICKNESS;
         CONTEXT.moveTo(this.centre.x - BEE_STRIPE_OFFSET,
                        this.centre.y - BEE_RADIUS);
         CONTEXT.lineTo(this.centre.x - BEE_STRIPE_OFFSET,
