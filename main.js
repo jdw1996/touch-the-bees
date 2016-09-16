@@ -38,6 +38,7 @@ const END_TEXT2_NW_CORNER = new Point(250,END_TEXT1_NW_CORNER.y + 60);
 const BEE_COLOUR = "#fce94f";
 const BEE_OUTLINE_COLOUR = "#2e3436";
 const BEE_OUTLINE_THICKNESS = 10;
+const BEE_STRIPE_OFFSET = 10;
 
 
 /* HELPER FUNCTIONS */
@@ -236,6 +237,18 @@ function Bee() {
         CONTEXT.arc(this.centre.x, this.centre.y, this.radius,
                          0, 2 * Math.PI);
         CONTEXT.fill();
+        CONTEXT.stroke();
+
+        CONTEXT.lineWidth = this.outlineThickness
+        CONTEXT.moveTo(this.centre.x - BEE_STRIPE_OFFSET,
+                       this.centre.y - BEE_RADIUS);
+        CONTEXT.lineTo(this.centre.x - BEE_STRIPE_OFFSET,
+                       this.centre.y + BEE_RADIUS);
+        CONTEXT.stroke();
+        CONTEXT.moveTo(this.centre.x + BEE_STRIPE_OFFSET,
+                       this.centre.y - BEE_RADIUS);
+        CONTEXT.lineTo(this.centre.x + BEE_STRIPE_OFFSET,
+                       this.centre.y + BEE_RADIUS);
         CONTEXT.stroke();
     }
 
