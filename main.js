@@ -93,6 +93,13 @@ function distance(p1, p2) {
     return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 }
 
+// Return true if pt is in the rectangle with top-left corner nwCorner, height
+//   height, and width width.
+function pointInRect(pt, nwCorner, height, width) {
+    return ((nwCorner.x <= pt.x && pt.x <= nwCorner.x + width)
+            && (nwCorner.y <= pt.y && pt.y <= nwCorner.y + height));
+}
+
 
 /* OBJECTS AND CONSTRUCTORS */
 
@@ -190,11 +197,8 @@ const GAME = {
             let canvasRect = CANVAS.getBoundingClientRect();
             let mousePoint = new Point(e.clientX - canvasRect.left,
                                        e.clientY - canvasRect.top);
-            if (PAUSE_BUTTON.nwCorner.x <= mousePoint.x
-                && mousePoint.x <= PAUSE_BUTTON.nwCorner.x + PAUSE_BUTTON.width
-                && PAUSE_BUTTON.nwCorner.y <= mousePoint.y
-                && mousePoint.y <= PAUSE_BUTTON.nwCorner.y
-                                   + PAUSE_BUTTON.height) {
+            if (pointInRect(mousePoint, PAUSE_BUTTON.nwCorner,
+                            PAUSE_BUTTON.height, PAUSE_BUTTON.width)) {
                 // touch is inside pause button
                 this.paused = true;
             }
