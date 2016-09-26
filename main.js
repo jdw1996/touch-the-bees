@@ -51,9 +51,9 @@ const END_TEXT2_NW_CORNER = new Point(250,END_TEXT1_NW_CORNER.y + 60);
 // Buttons
 const BUTTON_COLOUR = "#4e9a06";
 
-const LEFT_BUTTON_NW_CORNER = new Point(360,260);
-const LEFT_BUTTON_WIDTH = 100;
 const LEFT_BUTTON_HEIGHT = 100;
+const LEFT_BUTTON_WIDTH = 100;
+const LEFT_BUTTON_NW_CORNER = new Point(360,260);
 const LEFT_RESUME_TOP = new Point(LEFT_BUTTON_NW_CORNER.x + 20,
                                   LEFT_BUTTON_NW_CORNER.y + 20);
 const LEFT_RESUME_RIGHT = new Point(LEFT_BUTTON_NW_CORNER.x
@@ -63,6 +63,18 @@ const LEFT_RESUME_RIGHT = new Point(LEFT_BUTTON_NW_CORNER.x
 const LEFT_RESUME_BOTTOM = new Point(LEFT_BUTTON_NW_CORNER.x + 20,
                                      LEFT_BUTTON_NW_CORNER.y
                                      + LEFT_BUTTON_HEIGHT - 20);
+
+const PAUSE_BUTTON_HEIGHT = 80;
+const PAUSE_BUTTON_WIDTH = 80;
+const PAUSE_BUTTON_NW_CORNER = new Point(20, CANVAS.height
+                                             - PAUSE_BUTTON_HEIGHT - 20);
+const PAUSE_BAR_HEIGHT = PAUSE_BUTTON_HEIGHT - 40;
+const PAUSE_BAR_WIDTH = (PAUSE_BUTTON_WIDTH / 2) - 25;
+const PAUSE_BAR1_NW_CORNER = new Point(PAUSE_BUTTON_NW_CORNER.x + 20,
+                                       PAUSE_BUTTON_NW_CORNER.y + 20);
+const PAUSE_BAR2_NW_CORNER = new Point(PAUSE_BUTTON_NW_CORNER.x
+                                       + PAUSE_BAR_WIDTH + 30,
+                                       PAUSE_BUTTON_NW_CORNER.y + 20)
 
 
 /* HELPER FUNCTIONS */
@@ -154,6 +166,23 @@ const GAME = {
         this.clear();
         for (let i = 0; i < this.bees.length; i++) {
             this.bees[i].draw();
+        }
+
+        if (this.startedPlaying) {
+            CONTEXT.fillStyle = BUTTON_COLOUR;
+            CONTEXT.fillRect(PAUSE_BUTTON_NW_CORNER.x,
+                             PAUSE_BUTTON_NW_CORNER.y,
+                             PAUSE_BUTTON_WIDTH,
+                             PAUSE_BUTTON_HEIGHT);
+            CONTEXT.fillStyle = TEXT_COLOUR;
+            CONTEXT.fillRect(PAUSE_BAR1_NW_CORNER.x,
+                             PAUSE_BAR1_NW_CORNER.y,
+                             PAUSE_BAR_WIDTH,
+                             PAUSE_BAR_HEIGHT);
+            CONTEXT.fillRect(PAUSE_BAR2_NW_CORNER.x,
+                             PAUSE_BAR2_NW_CORNER.y,
+                             PAUSE_BAR_WIDTH,
+                             PAUSE_BAR_HEIGHT);
         }
     },
 
