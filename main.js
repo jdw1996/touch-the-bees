@@ -51,7 +51,7 @@ const END_TEXT2_NW_CORNER = new Point(250,END_TEXT1_NW_CORNER.y + 60);
 // Buttons
 const BUTTON_COLOUR = "#4e9a06";
 
-const LEFT_BUTTON = {
+const RESUME_BUTTON = {
     height: 100,
     width: 100,
     nwCorner: new Point(360, 260),
@@ -193,10 +193,10 @@ const GAME = {
 
     // Handle mousedown events.
     handleMouseDown: function(e) {
+        let canvasRect = CANVAS.getBoundingClientRect();
+        let mousePoint = new Point(e.clientX - canvasRect.left,
+                                   e.clientY - canvasRect.top);
         if (! this.gameOver && ! this.paused) {
-            let canvasRect = CANVAS.getBoundingClientRect();
-            let mousePoint = new Point(e.clientX - canvasRect.left,
-                                       e.clientY - canvasRect.top);
             if (pointInRect(mousePoint, PAUSE_BUTTON.nwCorner,
                             PAUSE_BUTTON.height, PAUSE_BUTTON.width)) {
                 // touch is inside pause button
@@ -208,6 +208,11 @@ const GAME = {
                     this.bees[i].kill();
                     this.currentScore++;
                 }
+            }
+        } else if (this.paused) {
+            if (pointInRect(mousePoint, RESUME_BUTTON.nwCorner,
+                            RESUME_BUTTON.height, RESUME_BUTTON.width)) {
+                this.paused = false;
             }
         } else {
             this.reset();
@@ -235,17 +240,18 @@ const GAME = {
                          PAUSE_TEXT_NW_CORNER.y);
 
         CONTEXT.fillStyle = BUTTON_COLOUR;
-        CONTEXT.fillRect(LEFT_BUTTON.nwCorner.x,
-                         LEFT_BUTTON.nwCorner.y,
-                         LEFT_BUTTON.width,
-                         LEFT_BUTTON.height);
+        CONTEXT.fillRect(RESUME_BUTTON.nwCorner.x,
+                         RESUME_BUTTON.nwCorner.y,
+                         RESUME_BUTTON.width,
+                         RESUME_BUTTON.height);
 
         CONTEXT.fillStyle = TEXT_COLOUR;
         CONTEXT.beginPath();
-        CONTEXT.moveTo(LEFT_BUTTON.resume.top.x, LEFT_BUTTON.resume.top.y);
-        CONTEXT.lineTo(LEFT_BUTTON.resume.right.x, LEFT_BUTTON.resume.right.y);
-        CONTEXT.lineTo(LEFT_BUTTON.resume.bottom.x,
-                       LEFT_BUTTON.resume.bottom.y);
+        CONTEXT.moveTo(RESUME_BUTTON.resume.top.x, RESUME_BUTTON.resume.top.y);
+        CONTEXT.lineTo(RESUME_BUTTON.resume.right.x,
+                       RESUME_BUTTON.resume.right.y);
+        CONTEXT.lineTo(RESUME_BUTTON.resume.bottom.x,
+                       RESUME_BUTTON.resume.bottom.y);
         CONTEXT.fill();
     },
 
