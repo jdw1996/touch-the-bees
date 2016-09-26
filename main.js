@@ -186,10 +186,18 @@ const GAME = {
 
     // Handle mousedown events.
     handleMouseDown: function(e) {
-        if (! this.gameOver) {
+        if (! this.gameOver && ! this.paused) {
             let canvasRect = CANVAS.getBoundingClientRect();
             let mousePoint = new Point(e.clientX - canvasRect.left,
                                        e.clientY - canvasRect.top);
+            if (PAUSE_BUTTON.nwCorner.x <= mousePoint.x
+                && mousePoint.x <= PAUSE_BUTTON.nwCorner.x + PAUSE_BUTTON.width
+                && PAUSE_BUTTON.nwCorner.y <= mousePoint.y
+                && mousePoint.y <= PAUSE_BUTTON.nwCorner.y
+                                   + PAUSE_BUTTON.height) {
+                // touch is inside pause button
+                this.paused = true;
+            }
             for (let i = 0; i < this.bees.length; i++) {
                 let dist = distance(mousePoint, this.bees[i].centre);
                 if (dist < BEE_RADIUS * BEE_TOUCH_SENSITIVITY) {
