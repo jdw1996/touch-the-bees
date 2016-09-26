@@ -51,30 +51,28 @@ const END_TEXT2_NW_CORNER = new Point(250,END_TEXT1_NW_CORNER.y + 60);
 // Buttons
 const BUTTON_COLOUR = "#4e9a06";
 
-const LEFT_BUTTON_HEIGHT = 100;
-const LEFT_BUTTON_WIDTH = 100;
-const LEFT_BUTTON_NW_CORNER = new Point(360,260);
-const LEFT_RESUME_TOP = new Point(LEFT_BUTTON_NW_CORNER.x + 20,
-                                  LEFT_BUTTON_NW_CORNER.y + 20);
-const LEFT_RESUME_RIGHT = new Point(LEFT_BUTTON_NW_CORNER.x
-                                    + LEFT_BUTTON_WIDTH - 10,
-                                    LEFT_BUTTON_NW_CORNER.y
-                                    + (LEFT_BUTTON_HEIGHT / 2));
-const LEFT_RESUME_BOTTOM = new Point(LEFT_BUTTON_NW_CORNER.x + 20,
-                                     LEFT_BUTTON_NW_CORNER.y
-                                     + LEFT_BUTTON_HEIGHT - 20);
+const LEFT_BUTTON = {
+    height: 100,
+    width: 100,
+    nwCorner: new Point(360, 260),
+    resume: {
+        top: new Point(380, 280),
+        right: new Point(450, 310),
+        bottom: new Point(380, 340)
+    }
+};
 
-const PAUSE_BUTTON_HEIGHT = 80;
-const PAUSE_BUTTON_WIDTH = 80;
-const PAUSE_BUTTON_NW_CORNER = new Point(20, CANVAS.height
-                                             - PAUSE_BUTTON_HEIGHT - 20);
-const PAUSE_BAR_HEIGHT = PAUSE_BUTTON_HEIGHT - 40;
-const PAUSE_BAR_WIDTH = (PAUSE_BUTTON_WIDTH / 2) - 25;
-const PAUSE_BAR1_NW_CORNER = new Point(PAUSE_BUTTON_NW_CORNER.x + 20,
-                                       PAUSE_BUTTON_NW_CORNER.y + 20);
-const PAUSE_BAR2_NW_CORNER = new Point(PAUSE_BUTTON_NW_CORNER.x
-                                       + PAUSE_BAR_WIDTH + 30,
-                                       PAUSE_BUTTON_NW_CORNER.y + 20)
+const PAUSE_BUTTON = {
+    height: 80,
+    width: 80,
+    nwCorner: new Point(20, 400),
+    bars: {
+        height: 40,
+        width: 15,
+        nwCorner1: new Point(40, 420),
+        nwCorner2: new Point(65, 420)
+    }
+};
 
 
 /* HELPER FUNCTIONS */
@@ -170,19 +168,19 @@ const GAME = {
 
         if (this.startedPlaying) {
             CONTEXT.fillStyle = BUTTON_COLOUR;
-            CONTEXT.fillRect(PAUSE_BUTTON_NW_CORNER.x,
-                             PAUSE_BUTTON_NW_CORNER.y,
-                             PAUSE_BUTTON_WIDTH,
-                             PAUSE_BUTTON_HEIGHT);
+            CONTEXT.fillRect(PAUSE_BUTTON.nwCorner.x,
+                             PAUSE_BUTTON.nwCorner.y,
+                             PAUSE_BUTTON.width,
+                             PAUSE_BUTTON.height);
             CONTEXT.fillStyle = TEXT_COLOUR;
-            CONTEXT.fillRect(PAUSE_BAR1_NW_CORNER.x,
-                             PAUSE_BAR1_NW_CORNER.y,
-                             PAUSE_BAR_WIDTH,
-                             PAUSE_BAR_HEIGHT);
-            CONTEXT.fillRect(PAUSE_BAR2_NW_CORNER.x,
-                             PAUSE_BAR2_NW_CORNER.y,
-                             PAUSE_BAR_WIDTH,
-                             PAUSE_BAR_HEIGHT);
+            CONTEXT.fillRect(PAUSE_BUTTON.bars.nwCorner1.x,
+                             PAUSE_BUTTON.bars.nwCorner1.y,
+                             PAUSE_BUTTON.bars.width,
+                             PAUSE_BUTTON.bars.height);
+            CONTEXT.fillRect(PAUSE_BUTTON.bars.nwCorner2.x,
+                             PAUSE_BUTTON.bars.nwCorner2.y,
+                             PAUSE_BUTTON.bars.width,
+                             PAUSE_BUTTON.bars.height);
         }
     },
 
@@ -225,16 +223,17 @@ const GAME = {
                          PAUSE_TEXT_NW_CORNER.y);
 
         CONTEXT.fillStyle = BUTTON_COLOUR;
-        CONTEXT.fillRect(LEFT_BUTTON_NW_CORNER.x,
-                         LEFT_BUTTON_NW_CORNER.y,
-                         LEFT_BUTTON_WIDTH,
-                         LEFT_BUTTON_HEIGHT);
+        CONTEXT.fillRect(LEFT_BUTTON.nwCorner.x,
+                         LEFT_BUTTON.nwCorner.y,
+                         LEFT_BUTTON.width,
+                         LEFT_BUTTON.height);
 
         CONTEXT.fillStyle = TEXT_COLOUR;
         CONTEXT.beginPath();
-        CONTEXT.moveTo(LEFT_RESUME_TOP.x, LEFT_RESUME_TOP.y);
-        CONTEXT.lineTo(LEFT_RESUME_RIGHT.x, LEFT_RESUME_RIGHT.y);
-        CONTEXT.lineTo(LEFT_RESUME_BOTTOM.x, LEFT_RESUME_BOTTOM.y);
+        CONTEXT.moveTo(LEFT_BUTTON.resume.top.x, LEFT_BUTTON.resume.top.y);
+        CONTEXT.lineTo(LEFT_BUTTON.resume.right.x, LEFT_BUTTON.resume.right.y);
+        CONTEXT.lineTo(LEFT_BUTTON.resume.bottom.x,
+                       LEFT_BUTTON.resume.bottom.y);
         CONTEXT.fill();
     },
 
