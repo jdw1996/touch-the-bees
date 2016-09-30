@@ -78,6 +78,17 @@ const RESTART_BUTTON = {
     }
 };
 
+const REPLAY_BUTTON = {
+    height: 100,
+    width: 100,
+    nwCorner: new Point(450, 270),
+    replay: {
+        top: new Point(470, 290),
+        right: new Point(540, 320),
+        bottom: new Point(470, 350)
+    }
+};
+
 const PAUSE_BUTTON = {
     height: 80,
     width: 80,
@@ -312,6 +323,21 @@ const GAME = {
         CONTEXT.fillText(END_TEXT2,
                          END_TEXT2_NW_CORNER.x,
                          END_TEXT2_NW_CORNER.y);
+
+        CONTEXT.fillStyle = BUTTON_COLOUR;
+        CONTEXT.fillRect(REPLAY_BUTTON.nwCorner.x,
+                         REPLAY_BUTTON.nwCorner.y,
+                         REPLAY_BUTTON.width,
+                         REPLAY_BUTTON.height);
+
+        CONTEXT.fillStyle = TEXT_COLOUR;
+        CONTEXT.beginPath();
+        CONTEXT.moveTo(REPLAY_BUTTON.replay.top.x, REPLAY_BUTTON.replay.top.y);
+        CONTEXT.lineTo(REPLAY_BUTTON.replay.right.x,
+                       REPLAY_BUTTON.replay.right.y);
+        CONTEXT.lineTo(REPLAY_BUTTON.replay.bottom.x,
+                       REPLAY_BUTTON.replay.bottom.y);
+        CONTEXT.fill();
     },
 
     // Reset the variables that must be reset to start a new game.
