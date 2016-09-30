@@ -143,16 +143,17 @@ const GAME = {
 
     // Run the game.
     run: function() {
-        this.pregame();
         this.playInterval = setInterval(
             (function(self) {
                 return function() {
-                    if (! self.gameOver && ! self.paused) {
+                    if (! self.startedPlaying) {
+                        self.pregame();
+                    } else if (! self.gameOver && ! self.paused) {
                         self.update();
                         self.draw();
                     } else if (self.paused) {
                         self.pausegame();
-                    } else if (self.startedPlaying) {
+                    } else {    // self.gameOver
                         self.endgame();
                     }
                 };
