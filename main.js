@@ -245,8 +245,12 @@ const GAME = {
                 this.reset();
                 this.paused = false;
             }
-        } else {
-            this.reset();
+        } else if (this.gameOver) {
+            if (pointInRect(mousePoint, REPLAY_BUTTON.nwCorner,
+                            REPLAY_BUTTON.height, REPLAY_BUTTON.width)
+                || ! this.startedPlaying) {
+                this.reset();
+            }
         }
     },
 
