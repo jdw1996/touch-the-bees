@@ -62,6 +62,22 @@ const RESUME_BUTTON = {
     }
 };
 
+const RESTART_BUTTON = {
+    height: 100,
+    width: 100,
+    nwCorner: new Point(540, 260),
+    restart: {
+        centre: new Point(590, 310),
+        radius: 30,
+        thickness: 10,
+        arcStart: - 3 * Math.PI / 4,
+        arcEnd: 5 * Math.PI / 6,
+        arrowTip: new Point(557, 301),
+        arrowWing1: new Point(562, 276),
+        arrowWing2: new Point(582, 296)
+    }
+};
+
 const PAUSE_BUTTON = {
     height: 80,
     width: 80,
@@ -253,6 +269,32 @@ const GAME = {
         CONTEXT.lineTo(RESUME_BUTTON.resume.bottom.x,
                        RESUME_BUTTON.resume.bottom.y);
         CONTEXT.fill();
+
+        CONTEXT.fillStyle = BUTTON_COLOUR;
+        CONTEXT.fillRect(RESTART_BUTTON.nwCorner.x,
+                         RESTART_BUTTON.nwCorner.y,
+                         RESTART_BUTTON.width,
+                         RESTART_BUTTON.height);
+
+        CONTEXT.strokeStyle = TEXT_COLOUR;
+        CONTEXT.lineWidth = RESTART_BUTTON.restart.thickness;
+        CONTEXT.beginPath();
+        CONTEXT.arc(RESTART_BUTTON.restart.centre.x,
+                    RESTART_BUTTON.restart.centre.y,
+                    RESTART_BUTTON.restart.radius,
+                    RESTART_BUTTON.restart.arcStart,
+                    RESTART_BUTTON.restart.arcEnd);
+        CONTEXT.stroke();
+        CONTEXT.fillStyle = TEXT_COLOUR;
+        CONTEXT.beginPath();
+        CONTEXT.moveTo(RESTART_BUTTON.restart.arrowTip.x,
+                       RESTART_BUTTON.restart.arrowTip.y);
+        CONTEXT.lineTo(RESTART_BUTTON.restart.arrowWing1.x,
+                       RESTART_BUTTON.restart.arrowWing1.y);
+        CONTEXT.lineTo(RESTART_BUTTON.restart.arrowWing2.x,
+                       RESTART_BUTTON.restart.arrowWing2.y);
+        CONTEXT.fill();
+        // TODO: draw restart symbol
     },
 
     // Display the end of game screen.
@@ -325,7 +367,7 @@ function Bee() {
         CONTEXT.lineWidth = BEE_OUTLINE_THICKNESS;
         CONTEXT.beginPath();
         CONTEXT.arc(this.centre.x, this.centre.y, BEE_RADIUS,
-                         0, 2 * Math.PI);
+                    0, 2 * Math.PI);
         CONTEXT.fill();
         CONTEXT.stroke();
 
