@@ -215,7 +215,6 @@ const GAME = {
         if (! this.gameOver && ! this.paused) {
             if (pointInRect(mousePoint, PAUSE_BUTTON.nwCorner,
                             PAUSE_BUTTON.height, PAUSE_BUTTON.width)) {
-                // touch is inside pause button
                 this.paused = true;
             }
             for (let i = 0; i < this.bees.length; i++) {
@@ -228,6 +227,11 @@ const GAME = {
         } else if (this.paused) {
             if (pointInRect(mousePoint, RESUME_BUTTON.nwCorner,
                             RESUME_BUTTON.height, RESUME_BUTTON.width)) {
+                this.paused = false;
+            } else if (pointInRect(mousePoint, RESTART_BUTTON.nwCorner,
+                                   RESTART_BUTTON.height,
+                                   RESTART_BUTTON.width)) {
+                this.reset();
                 this.paused = false;
             }
         } else {
