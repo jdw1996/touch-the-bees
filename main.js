@@ -14,7 +14,7 @@ const HIGH_SCORE_STRING = "highscore";
 const CANVAS = document.getElementById("mycanvas");
 const CONTEXT = CANVAS.getContext("2d");
 const REFRESH_RATE = 20;            // milliseconds between refreshes
-const BACKGROUND_COLOUR = "#729fcf";
+const BACKGROUND_COLOUR = "#71c5ff";
 
 // Bees
 const BEE_UPDATED = "Successfully updated the bee.";
@@ -35,7 +35,7 @@ const BEE_STRIPE_OFFSET = 10;
 
 // Text
 const TEXT_FONT = "40px Source Code Pro";
-const TEXT_COLOUR = "#eeeeec";
+const TEXT_COLOUR = "#ffffff";
 
 const START_TEXT = "Click to start touching bees!";
 const START_TEXT_NW_CORNER = new Point(140, 210);
