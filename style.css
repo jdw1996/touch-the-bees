@@ -1,9 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700);
 
 body {
     background-color: #FFFFFF;
-    font-family: "Source Sans Pro";
+    font-family: "Source Code Pro";
     font-weight: normal;
     font-size: 16pt;
     color: #202020;
@@ -20,8 +19,6 @@ h4,
 h5,
 h6,
 header p {
-    font-family: "Source Code Pro";
-    font-weight: normal;
     margin: 0;
 }
 
@@ -30,7 +27,6 @@ h1 {
 }
 
 table {
-    font-family: "Source Code Pro";
     font-size: 1.5em;
     text-align: right;
 }
