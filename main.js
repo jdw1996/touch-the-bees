@@ -14,7 +14,7 @@ const HIGH_SCORE_STRING = "highscore";
 const CANVAS = document.getElementById("mycanvas");
 const CONTEXT = CANVAS.getContext("2d");
 const REFRESH_RATE = 20;            // milliseconds between refreshes
-const BACKGROUND_COLOUR = "#71c5ff";
+const BACKGROUND_COLOUR = "#68b0e3";
 
 // Bees
 const BEE_UPDATED = "Successfully updated the bee.";
