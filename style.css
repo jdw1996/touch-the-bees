@@ -26,6 +26,21 @@ h1 {
     font-size: 56pt;
 }
 
+h2 {
+    font-size: 20pt;
+}
+
+a {
+    color: #268bd2;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
 table {
     font-size: 1.5em;
     text-align: right;
