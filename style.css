@@ -37,8 +37,7 @@ a {
 
 a:hover,
 a:focus {
-    font-weight: 700;
-    text-decoration: underline;
+    color: #68b0e3;
 }
 
 table {
